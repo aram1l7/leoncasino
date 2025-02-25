@@ -250,11 +250,11 @@
       ]
 }
       "
-        class="flex px-4 sm:px-10 justify-center flex-row flex-wrap items-stretch gap-10 text-white py-10"
+        class="flex flex-col sm:flex-row sm:flex-wrap px-10 justify-center gap-10 text-white py-10"
       >
         <template x-for="slot in slots" :key="slot.title">
           <article
-            class="group flex rounded-sm max-w-sm flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300"
+            class="group w-full sm:max-w-sm flex rounded-sm flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300"
           >
             <div class="h-48 md:h-64 overflow-hidden">
               <img
@@ -322,6 +322,70 @@
               ctaUrl: 'https://leon211.casino/registration',
              },  
 
+
+
+             {
+              images: {
+                background:'./assets/games/wolf-gold/background/1.png',
+                characters: ['./assets/games/wolf-gold/characters/Character_1.gif',
+                './assets/games/wolf-gold/characters/Character_2.gif',
+               
+                ],
+                logo: {
+                  horizontal: './assets/games/wolf-gold/logo/horizontal.png',
+                  vertical: './assets/games/wolf-gold/logo/vertical.png'
+                },
+                symbols: ['./assets/games/wolf-gold/symbols/01.png',
+                 './assets/games/wolf-gold/symbols/02.png', 
+                 './assets/games/wolf-gold/symbols/03.png',
+                 './assets/games/wolf-gold/symbols/04.png'
+
+                 ]
+              },
+              title: 'Wolf Gold',  
+              ctaUrl: 'https://leon211.casino/registration',
+             },  
+
+             {
+              images: {
+                background:'./assets/games/sweet-bonanza/background/Freegame_BG.png',
+                characters: ['./assets/games/sweet-bonanza/characters/Character_1.png',
+                './assets/games/sweet-bonanza/characters/Character_2.png',
+                './assets/games/sweet-bonanza/characters/Character_3.png'
+                ],
+                logo: {
+                  horizontal: './assets/games/sweet-bonanza/logo/horizontal.png',
+                  vertical: './assets/games/sweet-bonanza/logo/vertical.png'
+                },
+                symbols: ['./assets/games/sweet-bonanza/symbols/1.png',
+                 './assets/games/sweet-bonanza/symbols/2.png', 
+                 './assets/games/sweet-bonanza/symbols/3.png',
+                 './assets/games/sweet-bonanza/symbols/4.png'
+
+                 ]
+              },
+              title: 'Sweet Bonanza 2',  
+              ctaUrl: 'https://leon211.casino/registration',
+             },  
+
+
+             {
+              images: {
+                background:'./assets/games/gates-of-olympus/background/Freegame_BG.png',
+                characters: ['./assets/games/gates-of-olympus/characters/Character.png'],
+                logo: {
+                  horizontal: './assets/games/gates-of-olympus/logo/horizontal.png',
+                  vertical: './assets/games/gates-of-olympus/logo/vertical.png'
+                },
+                symbols: ['./assets/games/gates-of-olympus/symbols/gool_hv3.png',
+                 './assets/games/gates-of-olympus/symbols/gool_hv4.png', 
+                 './assets/games/gates-of-olympus/symbols/zeus_summon_titan.png'
+                 ]
+              },
+              title: 'Gates of olympus 2',  
+              ctaUrl: 'https://leon211.casino/registration',
+             },  
+
              {
               images: {
                 background:'./assets/games/wolf-gold/background/1.png',
@@ -345,16 +409,43 @@
              },  
             ] }"
           x-init="swiper = new Swiper('.swiper', {
-          grab: true,
-          grabCursor:true,
           slidesPerView: 3,
-          infinite:true,
           spaceBetween: 15,
-          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-          pagination: { el: '.swiper-pagination', clickable: true },
+          navigation: { nextEl: '#swiper-next', prevEl: '#swiper-prev' },
+          breakpoints: {
+           
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 20
+            },
+           
+            480: {
+              slidesPerView: 2,
+              spaceBetween: 30
+            },
+           
+            1020: {
+              slidesPerView: 3,
+              spaceBetween: 40
+            }
+          }
       })"
-          class="max-w-[77rem] mx-auto py-10"
+          class="max-w-[77rem] mx-auto py-10 h-[70vh]"
         >
+          <div class="w-full flex justify-end items-center gap-4 mb-4">
+            <div
+              id="swiper-prev"
+              class="relative cursor-pointer select-none text-2xl px-4 py-1 font-medium"
+            >
+              &lsaquo;
+            </div>
+            <div
+              id="swiper-next"
+              class="relative cursor-pointer select-none text-2xl px-4 py-1 font-medium"
+            >
+              &rsaquo;
+            </div>
+          </div>
           <div class="swiper">
             <div class="swiper-wrapper">
               <template x-for="(slide, index) in slides">
@@ -396,14 +487,19 @@
                 </div>
               </template>
             </div>
-            <div class="swiper-pagination"></div>
-
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
           </div>
         </div>
       </div>
     </main>
-    <footer></footer>
+    <footer class="px-4 pt-4 pb-2 text-gray-300 text-center font-medium text-xs md:text-sm">
+      Copyright &copy;
+      <span id="year"></span>
+      By <span class="text-yellow-400 font-medium"> Aram Martirosyan</span> -
+      All rights reserved.
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
