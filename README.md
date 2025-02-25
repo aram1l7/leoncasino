@@ -39,6 +39,7 @@ This project is a high-quality, responsive landing page built to meet the requir
 - JavaScript (Vanilla JS)
 - Alpine JS
 - Swiper JS
+- PostCSS
 
 ## Installation & Usage
 1. Clone the repository:
@@ -58,6 +59,8 @@ The project is assessed based on:
 3. **Code Quality & Structure**: Clean, maintainable, and well-documented code.
 4. **Interactivity & Animations**: Smooth and engaging interactive elements.
 5. **Performance Optimization**: Lightweight and fast page loading.
+5. **Dark mode**: Smooth dark mode with Tailwind v4 and Alpine JS.
+
 
 ## Submission
 This project has been completed within the given 48-hour timeframe and adheres to all the provided requirements.

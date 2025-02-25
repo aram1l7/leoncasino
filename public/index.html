@@ -1,4 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html
+  lang="en"
+  x-data="{ darkMode: localStorage.getItem('dark') === 'true'} "
+  x-init="$watch('darkMode', val => localStorage.setItem('dark', val))"
+  x-bind:class="{ 'dark': darkMode }"
+>
   <head>
     <title>Leon Casino</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,6 +34,7 @@
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="main.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"
@@ -35,17 +42,37 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <style>
+      .swiper-pagination-bullets {
+        display: none;
+      }
+
+      [aria-disabled="true"] {
+        opacity: 50%;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    </style>
   </head>
-  <body class="bg-black">
+  <body class="dark:bg-black bg-white transition-colors ease-in duration-200">
     <header
-      class="px-5 sm:px-10 lg:px-12 xl:px-16 absolute z-50 bg-transparent w-full h-14 flex justify-between items-center"
+      x-data="{ scrolled: false }"
+      x-bind:class="scrolled ? 'bg-white dark:bg-yellow-500 shadow-md' : 'bg-transparent'"
+      x-on:scroll.window="scrolled = window.scrollY > 10"
+      class="fixed top-0 z-[100] px-5 duration-200 ease-in transition-colors sm:px-10 lg:px-12 xl:px-16 z-50 bg-transparent w-full h-14 flex justify-between items-center"
     >
       <div>
-        <img loading="lazy" src="./assets/logo.svg" alt="Leon casino logo" />
+        <img
+          x-bind:class="scrolled ? '!invert dark:!invert' : 'dark:invert invert-0'"
+          loading="lazy"
+          src="./assets/logo.svg"
+          alt="Leon casino logo"
+        />
       </div>
       <div class="flex gap-6 items-center">
         <button
-          class="uppercase cursor-pointer border-none text-gray-300 font-semibold text-xs bg-transparent"
+          class="uppercase cursor-pointer border-none dark:text-black text-white font-semibold text-xs bg-transparent"
+          x-bind:class="scrolled ? '!text-black' : ''"
         >
           Sign in
         </button>
@@ -53,6 +80,32 @@
           class="uppercase cursor-pointer text-black font-semibold text-xs bg-yellow-400 px-4 py-2"
         >
           REGISTRE-SE
+        </button>
+
+        <button @click="darkMode = !darkMode" class="p-2 rounded-full">
+          <svg
+            x-show="!darkMode"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6 text-yellow-500"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M12 2a1 1 0 011 1v2a1 1 0 11-2 0V3a1 1 0 011-1zM12 19a1 1 0 011 1v2a1 1 0 11-2 0v-2a1 1 0 011-1zM4.22 4.22a1 1 0 011.42 0l1.42 1.42a1 1 0 11-1.42 1.42L4.22 5.64a1 1 0 010-1.42zM17.36 17.36a1 1 0 011.42 0l1.42 1.42a1 1 0 11-1.42 1.42l-1.42-1.42a1 1 0 010-1.42zM2 12a1 1 0 011-1h2a1 1 0 110 2H3a1 1 0 01-1-1zM19 12a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1zM4.22 19.78a1 1 0 011.42 0l1.42-1.42a1 1 0 00-1.42-1.42L4.22 18.36a1 1 0 000 1.42zM17.36 6.64a1 1 0 011.42 0l1.42-1.42a1 1 0 10-1.42-1.42l-1.42 1.42a1 1 0 000 1.42z"
+            />
+          </svg>
+
+          <svg
+            x-show="darkMode"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6 text-white"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+            />
+          </svg>
         </button>
       </div>
     </header>
@@ -267,36 +320,49 @@
       ]
 }
       "
-        class="flex flex-col sm:flex-row sm:flex-wrap px-10 justify-center gap-10 text-white py-10"
+        class="mt-10"
       >
-        <template x-for="slot in slots" :key="slot.title">
-          <article
-            class="group w-full sm:max-w-sm flex rounded-sm flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300"
-          >
-            <div class="h-48 md:h-64 overflow-hidden">
-              <img
-                loading="lazy"
-                x-bind:src="slot.imgSrc"
-                class="object-cover h-full w-full object-top transition duration-700 ease-out group-hover:scale-105"
-              />
-            </div>
-            <div class="flex flex-col gap-4 p-5">
-              <h3
-                class="text-balance text-xl lg:text-2xl font-bold text-neutral-900 dark:text-white"
-                aria-describedby="featureDescription"
-                x-text="slot.title"
-              ></h3>
-              <p
-                x-text="slot.description"
-                id="featureDescription"
-                class="text-pretty text-sm"
-              ></p>
-            </div>
-          </article>
-        </template>
+        <h3
+          class="text-center dark:text-yellow-500 text-black font-semibold text-5xl"
+        >
+          Slots
+        </h3>
+        <div
+          class="flex flex-col sm:flex-row sm:flex-wrap px-10 justify-center gap-10 text-white py-10"
+        >
+          <template x-for="slot in slots" :key="slot.title">
+            <article
+              class="group w-full sm:max-w-sm flex rounded-sm flex-col overflow-hidden border border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 bg-transparent dark:text-neutral-300"
+            >
+              <div class="h-48 md:h-64 overflow-hidden">
+                <img
+                  loading="lazy"
+                  x-bind:src="slot.imgSrc"
+                  class="object-cover h-full w-full object-top transition duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
+              <div class="flex flex-col gap-4 p-5">
+                <h3
+                  class="text-balance text-xl lg:text-2xl font-bold text-neutral-900 dark:text-white"
+                  aria-describedby="featureDescription"
+                  x-text="slot.title"
+                ></h3>
+                <p
+                  x-text="slot.description"
+                  id="featureDescription"
+                  class="text-pretty text-sm"
+                ></p>
+              </div>
+            </article>
+          </template>
+        </div>
       </section>
-      <section id="games" class="px-10 text-white">
-        <h3 class="text-center font-semibold text-5xl">Games</h3>
+      <section id="games" class="px-10 text-white mt-10">
+        <h3
+          class="text-center dark:text-yellow-500 text-black font-semibold text-5xl"
+        >
+          Games
+        </h3>
         <div
           x-data="{ swiper: null, slides: [
             
@@ -449,7 +515,7 @@
       })"
           class="max-w-[77rem] mx-auto py-10 h-[70vh]"
         >
-          <div class="w-full flex justify-end items-center gap-4 mb-4">
+          <div class="w-full dark:text-white text-yellow-500 flex justify-end items-center gap-4 mb-4">
             <div
               id="swiper-prev"
               class="relative cursor-pointer select-none text-2xl px-4 py-1 font-medium"
@@ -467,7 +533,7 @@
             <div class="swiper-wrapper">
               <template x-for="(slide, index) in slides">
                 <div
-                  class="swiper-slide !flex justify-center bg-center cursor-pointer bg-cover bg-no-repeat max-h-[300px] rounded-lg p-10 text-center text-white"
+                  class="swiper-slide mb-10 !flex justify-center bg-center cursor-pointer bg-cover bg-no-repeat max-h-[300px] rounded-lg p-10 text-center text-white"
                   x-bind:style="loaded ?  `background-image: url('${slide.images.background}')` : '' "
                   x-on:click="window.open(slide.ctaUrl, '_blank')"
                   x-data="{ loaded: false }"
@@ -517,7 +583,7 @@
       </section>
     </main>
     <footer
-      class="p-4 text-gray-300 text-center font-medium text-xs md:text-sm"
+      class="p-4 text-black dark:text-gray-300 text-center font-medium text-xs md:text-sm"
     >
       Copyright &copy;
       <span id="year"></span>
