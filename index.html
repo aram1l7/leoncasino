@@ -2,15 +2,29 @@
   <head>
     <title>Leon Casino</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Leon Casino - The best online casino experience with huge bonuses and fast withdrawals. Join now!"
+    />
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
+    <meta property="og:title" content="Leon Casino" />
+    <meta
+      property="og:description"
+      content="Enjoy the best online casino experience with Leon Casino!"
+    />
+    <meta property="og:image" content="./assets/logo.svg" />
+    <meta property="og:url" content="https://leon211.casino" />
+
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"
       integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA=="
       crossorigin="anonymous"
+      async
       referrerpolicy="no-referrer"
     ></script>
     <script
-      defer
+      async
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
     <link rel="stylesheet" href="styles.css" />
@@ -27,7 +41,7 @@
       class="px-5 sm:px-10 lg:px-12 xl:px-16 absolute z-50 bg-transparent w-full h-14 flex justify-between items-center"
     >
       <div>
-        <img src="./assets/logo.svg" alt="Logo" />
+        <img loading="lazy" src="./assets/logo.svg" alt="Leon casino logo" />
       </div>
       <div class="flex gap-6 items-center">
         <button
@@ -43,7 +57,8 @@
       </div>
     </header>
     <main>
-      <div
+      <section
+        id="hero"
         x-data="{     
         autoplayIntervalTime: 4000,       
         slides: [                
@@ -198,6 +213,7 @@
               </div>
 
               <img
+                loading="lazy"
                 class="absolute object-top w-full h-full inset-0 object-cover text-neutral-600 dark:text-neutral-300"
                 x-bind:src="slide.imgSrc"
                 x-bind:alt="slide.imgAlt"
@@ -219,8 +235,9 @@
             ></button>
           </template>
         </div>
-      </div>
-      <div
+      </section>
+      <section
+        id="slots"
         x-data="{ 
           slots:[
       
@@ -258,9 +275,9 @@
           >
             <div class="h-48 md:h-64 overflow-hidden">
               <img
+                loading="lazy"
                 x-bind:src="slot.imgSrc"
                 class="object-cover h-full w-full object-top transition duration-700 ease-out group-hover:scale-105"
-                alt="a penguin robot talking with a human"
               />
             </div>
             <div class="flex flex-col gap-4 p-5">
@@ -277,8 +294,8 @@
             </div>
           </article>
         </template>
-      </div>
-      <div class="px-10 text-white">
+      </section>
+      <section id="games" class="px-10 text-white">
         <h3 class="text-center font-semibold text-5xl">Games</h3>
         <div
           x-data="{ swiper: null, slides: [
@@ -451,13 +468,16 @@
               <template x-for="(slide, index) in slides">
                 <div
                   class="swiper-slide !flex justify-center bg-center cursor-pointer bg-cover bg-no-repeat max-h-[300px] rounded-lg p-10 text-center text-white"
-                  x-bind:style="`background-image: url('${slide.images.background}')`"
+                  x-bind:style="loaded ?  `background-image: url('${slide.images.background}')` : '' "
                   x-on:click="window.open(slide.ctaUrl, '_blank')"
+                  x-data="{ loaded: false }"
+                  x-init="loaded = true"
                 >
                   <div
                     class="absolute top-3 left-1/2 transform -translate-x-1/2 w-24 h-auto"
                   >
                     <img
+                      loading="lazy"
                       class="w-full h-auto object-contain"
                       x-bind:src="slide.images.logo.horizontal"
                     />
@@ -466,6 +486,7 @@
                   <template x-for="character in slide.images.characters">
                     <div class="w-48 h-48">
                       <img
+                        loading="lazy"
                         class="w-full h-full object-contain"
                         x-bind:src="character"
                       />
@@ -476,7 +497,11 @@
                     class="absolute bottom-3 w-full justify-evenly left-1/2 transform -translate-x-1/2 flex gap-2"
                   >
                     <template x-for="symbol in slide.images.symbols">
-                      <img class="w-6 h-6 object-contain" x-bind:src="symbol" />
+                      <img
+                        loading="lazy"
+                        class="w-6 h-6 object-contain"
+                        x-bind:src="symbol"
+                      />
                     </template>
                   </div>
 
@@ -489,9 +514,11 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </main>
-    <footer class="px-4 pt-4 pb-2 text-gray-300 text-center font-medium text-xs md:text-sm">
+    <footer
+      class="p-4 text-gray-300 text-center font-medium text-xs md:text-sm"
+    >
       Copyright &copy;
       <span id="year"></span>
       By <span class="text-yellow-400 font-medium"> Aram Martirosyan</span> -
@@ -499,7 +526,9 @@
     </footer>
 
     <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("year").textContent = new Date().getFullYear();
+      });
     </script>
   </body>
 </html>
